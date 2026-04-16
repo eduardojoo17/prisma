@@ -80,4 +80,24 @@ export class UserController {
         .json({ error: "ocorreu um erro inesperado ao deletar o pedido" });
     }
   }
+  async listbyid(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    try {
+      if (isNaN(id)) {
+        res.status(400).json({ message: "id invalido" });
+      }
+      const user = await this.userRepository.findOneBy({ id });
+      if (!user) {
+        return res.status(404).json({ error: "Pedido não encontrado" });
+      }
+      return res.status(204).send();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      }
+      return res
+        .status(500)
+        .json({ error: "ocorreu um erro inesperado ao deletar o pedido" });
+    }
+  }
 }
