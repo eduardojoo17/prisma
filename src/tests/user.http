@@ -12,3 +12,12 @@ Content-Type: application/json
 ###
 // Deletar
 DELETE http://localhost:3000/api/users/3
+###
+// Atualizar
+PATCH  http://localhost:3000/api/users/4
+Content-Type: application/json
+
+{
+    "firstName": "Roseli",
+    "lastName":"polceno"
+}
