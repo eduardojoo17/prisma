@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "allowSyntheticDefaultImports":true
   }
 }
