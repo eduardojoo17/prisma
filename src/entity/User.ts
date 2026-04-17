@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Post } from "./Post";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -10,4 +10,8 @@ export class User {
   lastName!: string;
   @Column({ type: "boolean", default: true })
   isActive!: boolean;
+  //um usuario pode ter muitos posts
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }

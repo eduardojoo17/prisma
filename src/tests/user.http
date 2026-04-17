@@ -1,23 +1,42 @@
-GET http://localhost:3000/api/users
-
+GET http://localhost:3000/api/users  
+// listar
 ###
+
 POST  http://localhost:3000/api/users
 Content-Type: application/json
-
+// criar
 {
     "firstName":"larissa",
     "lastName":"polceno"
 }
 
 ###
-// Deletar
+
 DELETE http://localhost:3000/api/users/3
+// deletar
 ###
-// Atualizar
+
+
 PATCH  http://localhost:3000/api/users/4
 Content-Type: application/json
+// atualizar
 
 {
     "firstName": "Roseli",
     "lastName":"polceno"
 }
+###
+GET http://localhost:3000/api/users/4
+// listar por id
+
+###
+PATCH  http://localhost:3000/api/users/1/toggle
+Content-Type: application/json
+// delete-soft desativar
+{
+    "isActive":false
+}
+
+###
+GET http://localhost:3000/api/users/active
+// listar os ativos

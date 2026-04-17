@@ -1,0 +1,14 @@
+GET http://localhost:3000/api/posts 
+// listar
+
+
+###
+// criar
+POST  http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "title":"meu primeiro post",
+    "content":"conteudo do post",
+    "userId":4
+}
