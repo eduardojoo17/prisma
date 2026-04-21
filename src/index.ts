@@ -6,11 +6,13 @@ import { User } from "./entity/User";
 import { userRoutes } from "./routes/userRoutes";
 import { error } from "node:console";
 import { postRoutes } from "./routes/postRoutes";
+import { errorMiddleware } from "./midllewares/errorMidleware";
 
 const app: Application = express();
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use(errorMiddleware);
 
 AppDataSource.initialize()
   .then(() => {
