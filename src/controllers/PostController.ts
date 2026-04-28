@@ -1,46 +1,87 @@
 import { AppDataSource } from "../data-source";
-import { User } from "../entity/User";
+import type { NextFunction, Request, Response } from "express";
 import { Post } from "../entity/Post";
-import type { Request, Response } from "express";
+import { User } from "../entity/User";
+import { BadRequestError, NotFoundError } from "../helpers/apiError";
+import { validate } from "class-validator";
+import { IValidationError } from "../types/IValidationError";
+import { formatErrors } from "../helpers/formatErrors";
 
 export class PostController {
   private postRepository = AppDataSource.getRepository(Post);
   private userRepository = AppDataSource.getRepository(User);
 
-  async list(req: Request, res: Response) {
+  list = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const posts = await this.postRepository.find({ relations: ["user"] });
       return res.json(posts);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
-      }
-      return res
-        .status(500)
-        .json({ error: "ocorreu um erro inesperado ao listar os usuarios" });
+      next(error);
     }
-  }
+  };
 
-  async create(req: Request, res: Response) {
+  create = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { title, content, userId } = req.body;
       if (isNaN(userId)) {
-        res.status(400).json({ message: "id do usuario" });
+        throw new BadRequestError("Id do usuário inválido");
       }
       const user = await this.userRepository.findOneBy({ id: userId });
       if (!user) {
-        return res.status(404).json({ message: "usuario não encontrado" });
+        throw new NotFoundError("Usuário não encontrado.");
       }
       const newPost = this.postRepository.create({ title, content, user });
+      const errors = await validate(newPost);
+      if (errors.length > 0) {
+        const formattedErrors = formatErrors(errors);
+        throw new BadRequestError("Falha de validação", formattedErrors);
+      }
       await this.postRepository.save(newPost);
       return res.status(201).json(newPost);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
-      }
-      return res
-        .status(500)
-        .json({ error: "ocorreu um erro inesperado ao criar o usuario" });
+      next(error);
     }
-  }
+  };
+
+  update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+      const { title, content } = req.body;
+      if (isNaN(id)) {
+        throw new BadRequestError("ID inválido");
+      }
+      const post = await this.postRepository.findOneBy({ id });
+      if (!post) {
+        throw new NotFoundError("Post não encontrado");
+      }
+      post.title = title ?? post.title;
+      post.content = content ?? post.content;
+      const errors = await validate(post);
+      if (errors.length > 0) {
+        const formattedErrors = formatErrors(errors);
+        throw new BadRequestError("Falha de validação", formattedErrors);
+      }
+
+      await this.postRepository.save(post);
+      return res.status(200).json(post);
+    } catch (error: unknown) {
+      next(error);
+    }
+  };
+
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        throw new BadRequestError(" Id invalido");
+      }
+      const result = await this.postRepository.delete(id);
+      if (result.affected === 0) {
+        throw new NotFoundError("Post não encontrado");
+      }
+      return res.status(204).send();
+    } catch (error: unknown) {
+      next(error);
+    }
+  };
 }

@@ -7,8 +7,10 @@ Content-Type: application/json
 // criar
 
 {
-    "firstName":"peter",
-    "lastName":"parker"
+    "firstName":"super 2",
+    "lastName":"man",
+    "email":"super@gmail.com",
+    "phone": "(24) 99298-0960"
 }
 
 ###
