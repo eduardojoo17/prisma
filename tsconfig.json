@@ -7,6 +7,7 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "lib": ["ESNext"],
-    "allowSyntheticDefaultImports":true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true  
   }
 }
