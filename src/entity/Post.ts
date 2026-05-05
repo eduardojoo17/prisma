@@ -13,7 +13,7 @@ export class Post {
   @IsString({ message: "Título precisa ser um texto" })
   @MinLength(5, { message: "Título deve ter pelo menos 5 caracteres." })
   @Validate(NoBlankSpaceConstraint, {
-    message: "o titulo do post precisa ter algum texto",
+    message: "O título do post precisa ter algum texto.",
   })
   title!: string;
 

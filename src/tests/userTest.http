@@ -1,0 +1,37 @@
+GET http://localhost:3000/api/users
+
+###
+GET http://localhost:3000/api/users/active
+
+###
+GET http://localhost:3000/api/users/3
+
+###
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Marco Aurelio 6",
+  "lastName": "Hansen",
+  "phone": "2499544-5421",
+  "email": "m@m.com",
+  "password": "david1234!"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/2
+
+###
+
+PATCH  http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "lastName": "Hansen de Oliveira",
+  "password": "dav"
+}
+
+###
+PATCH  http://localhost:3000/api/users/4/toggle

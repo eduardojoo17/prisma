@@ -1,14 +1,28 @@
-GET http://localhost:3000/api/posts 
-// listar
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTc3NzU4NDMwNCwiZXhwIjoxNzc3NjEzMTA0fQ.QHKxW31Ji6QYNP5Kp3uYK5lyM9Hdlh0xJ7yfB1f_JVs
 
-
-###
-// criar
-POST  http://localhost:3000/api/posts
+POST http://localhost:3000/api/posts
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
-    "title":"    ",
-    "content":"   ",
-    "userId":5
+  "title": "teste",
+  "content": "teste teste teste",
+  "userId": 12
 }
+
+###
+PATCH  http://localhost:3000/api/posts/8
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "teste testando",
+  "userId": 12
+}
+
+###
+
+GET http://localhost:3000/api/posts
+
+###
+DELETE  http://localhost:3000/api/posts/6
